@@ -1,5 +1,10 @@
 package user.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     String id;

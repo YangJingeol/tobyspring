@@ -6,7 +6,8 @@ import java.sql.*;
 
 public class UserDao {
     private ConnectionMaker connectionMaker;
-    public UserDao(ConnectionMaker connectionMaker){
+
+    public UserDao(ConnectionMaker connectionMaker) {
         this.connectionMaker = connectionMaker;
     }
 
@@ -24,7 +25,7 @@ public class UserDao {
         c.close();
     }
 
-    public User get(String id) throws ClassNotFoundException, SQLException{
+    public User get(String id) throws ClassNotFoundException, SQLException {
         Connection c = connectionMaker.makeConnection();
         PreparedStatement ps = c.prepareStatement("select * from users where id = ?");
         ps.setString(1, id);
@@ -44,4 +45,22 @@ public class UserDao {
         return user;
     }
 
+    public void deleteAll() throws ClassNotFoundException, SQLException {
+        Connection c = connectionMaker.makeConnection();
+        PreparedStatement ps = c.prepareStatement("delete from users");
+        ps.executeUpdate();
+        ps.close();
+        c.close();
+    }
+
+    public int getCount() throws SQLException ,ClassNotFoundException{
+
+        Connection c = connectionMaker.makeConnection();
+        PreparedStatement ps = c.prepareStatement("select count(*) from users");
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        int count = rs.getInt(1);
+        rs.close(); ps.close(); c.close();
+        return count;
+    }
 }
